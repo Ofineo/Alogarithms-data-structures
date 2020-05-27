@@ -1,3 +1,12 @@
+# Detecting Loops in Linked Lists
+# In this notebook, you'll implement a function that detects if a loop exists in a linked list. 
+# The way we'll do this is by having two pointers, called "runners", moving through the list at different rates. 
+# Typically we have a "slow" runner which moves at one node per step and a "fast" runner that moves at two nodes per step.
+
+# If a loop exists in the list, the fast runner will eventually move behind the slow runner as it moves to the beginning of the loop. 
+# Eventually it will catch up to the slow runner and both runners will be pointing to the same node at the same time. 
+# If this happens then you know there is a loop in the linked list. Below is an example where we have a slow runner (the green arrow) and a fast runner (the red arrow).
+
 class Node:
     def __init__(self, value):
         self.value = value
@@ -36,19 +45,21 @@ node.next = loop_start
 
 
 def iscircular(linked_list):
-    """
-    Determine whether the Linked List is circular or not
-
-    Args:
-       linked_list(obj): Linked List to be checked
-    Returns:
-       bool: Return True if the linked list is circular, return False otherwise
-    """
+    if linked_list.head is None:
+        return False
     
-    # TODO: Write function to check if linked list is circular
+    slow = linked_list.head
+    fast = linked_list.head
     
-    pass
-
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        
+        if slow == fast:
+            return True
+    # If we get to a node where fast doesn't have a next node or doesn't exist itself, 
+    # the list has an end and isn't circular
+    return False
 
 # Test Cases
 
